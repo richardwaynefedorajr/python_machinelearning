@@ -1,1 +1,3 @@
 # python_machinelearning
+
+Machine learning project on stock data...
