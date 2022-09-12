@@ -1,3 +1,3 @@
 # python_machinelearning
 
-Machine learning project on stock data...
+Various machine learning implementations
