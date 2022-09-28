@@ -1,0 +1,33 @@
+## File name: energy_image.py
+## Project specifics: ECE 5554 Computer Vision - PS1
+## Author: Richard Wayne Fedora Jr. 
+## Email: rfedora1@vt.edu
+## Phone: (706) 254-8887
+## Date of most recent edit: Tuesday, September 8, 2015
+## 
+## Code synopsis: this file contains a python function to compute the energy at each pixel using the magnitude of the x & y gradients (ref. Avidan & Shamir: Seam Carving for Content-Aware Image Resizing).
+##
+## Inputs - im: MxNx3 matrix of datatype uint8 (output of imread function)
+## Outputs - energyImage: 2D matrix of datatype double
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def energy_image(im):
+    im.astype(np.float64)
+    [im_Rx,im_Ry] = np.gradient(im[:,:,0])
+    [im_Gx,im_Gy] = np.gradient(im[:,:,1])
+    [im_Bx,im_By] = np.gradient(im[:,:,2])
+    im_Rx = np.square(im_Rx)
+    im_Ry = np.square(im_Ry)
+    im_Gx = np.square(im_Gx)
+    im_Gy = np.square(im_Gy)
+    im_Bx = np.square(im_Bx)
+    im_By = np.square(im_By)
+    im_R = np.sqrt(im_Rx + im_Ry)
+    im_G = np.sqrt(im_Gx + im_Gy)
+    im_B = np.sqrt(im_Bx + im_By)
+    im_out = im_R + im_G + im_B
+    im_out_final = np.multiply(im_out,(1./3))
+    
+    return im_out_final
