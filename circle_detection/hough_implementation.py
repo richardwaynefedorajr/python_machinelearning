@@ -16,5 +16,7 @@ import cv2
 from detectCircles import detectCircles
 
 image = cv2.imread("egg.jpg")
+
+# input -> image to detect circles in, radius of circles to detect, and 0/1 (use gradient or not)
 detectCircles(image,5,0)
 
