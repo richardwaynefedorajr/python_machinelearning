@@ -1,7 +1,10 @@
 from math import sin, asin, cos, atan, sqrt, degrees
 
-AB = int(input())
-BC = int(input())
+##AB = int(input())
+##BC = int(input())
+
+AB = 10
+BC = 10
 
 ## right triangle tan rule
 angle_BCM = atan(AB/BC)
