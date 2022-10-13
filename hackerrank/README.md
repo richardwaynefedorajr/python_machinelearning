@@ -4,17 +4,25 @@ Collection of python implementations for coding challenges located [here](https:
 
 Note:  these challenges are generally asking to read inputs from standard input in some specified format... this is annoying to debug because you have to enter data manually every time you run your program, so generally these implementations will have input values hard-coded... some include the functionality to read inputs as well.
 
-## [Find angle](https://www.hackerrank.com/challenges/find-angle/problem?isFullScreen=true)
+## [Write a function](https://www.hackerrank.com/challenges/write-a-function/problem?isFullScreen=true)
 
-## [No Idea](https://www.hackerrank.com/challenges/no-idea/problem?isFullScreen=true)
+## [The Minion Game](https://www.hackerrank.com/challenges/the-minion-game?isFullScreen=true)
+
+## [Merge the Tools](https://www.hackerrank.com/challenges/merge-the-tools?isFullScreen=true)
+
+## [Time Delta](https://www.hackerrank.com/challenges/python-time-delta?isFullScreen=true)
+
+## [Find Angle ABC](https://www.hackerrank.com/challenges/find-angle/problem?isFullScreen=true)
+
+## [No Idea!](https://www.hackerrank.com/challenges/no-idea/problem?isFullScreen=true)
 
 ## [Word Order](https://www.hackerrank.com/challenges/word-order/problem?isFullScreen=true)
 
-## [Compress the String](https://www.hackerrank.com/challenges/compress-the-string/problem?isFullScreen=true)
+## [Compress the String!](https://www.hackerrank.com/challenges/compress-the-string/problem?isFullScreen=true)
 
 ## [Company Logo](https://www.hackerrank.com/challenges/most-commons/problem?isFullScreen=true)
 
-## [Piling Up](https://www.hackerrank.com/challenges/piling-up/problem?isFullScreen=true)
+## [Piling Up!](https://www.hackerrank.com/challenges/piling-up/problem?isFullScreen=true)
 
 ## [Triangle Quest 2](https://www.hackerrank.com/challenges/triangle-quest-2/problem?isFullScreen=true)
 Note: this is a math trick, not a programming trick... this implementation is splitting the difference, using reduce to leverage the fact that 1^2 = 1, 11^2 = 121, 111^2 = 12321, etc... but it will not pass on hackerrank, because the import adds an extra line.  To pass on hackerrank, you could use 
@@ -52,4 +60,36 @@ print(*map(str, [x+y, x-y, x*y, x/y, x.mod(), y.mod()]), sep='\n')
 ## [Athlete Sort](https://www.hackerrank.com/challenges/python-sort-sort/problem?isFullScreen=true)
 
 ## [ginortS](https://www.hackerrank.com/challenges/ginorts/problem?isFullScreen=true)
+
+## [Validating Email Adresses With a Filter](https://www.hackerrank.com/challenges/validate-list-of-email-address-with-filter/problem?isFullScreen=true)
+
+## [Reduce Function](https://www.hackerrank.com/challenges/reduce-function/problem?isFullScreen=true)
+
+## [Regex Substitution](https://www.hackerrank.com/challenges/re-sub-regex-substitution/problem?isFullScreen=true)
+
+## [Validating Credit Card Numbers](https://www.hackerrank.com/challenges/validating-credit-card-number/problem?isFullScreen=true)
+
+## [Words Score](https://www.hackerrank.com/challenges/words-score/problem?isFullScreen=true)
+
+In this debugging problem, 
+``` score += 1 ```
+replaces
+``` ++score ```
+in
+```
+        if num_vowels % 2 == 0:
+            score += 2
+        else:
+            ++score
+```
+
+## [Default Arguments](https://www.hackerrank.com/challenges/default-arguments/problem?isFullScreen=true)
+
+Skipped for now
+
+## [Maximize It!](https://www.hackerrank.com/challenges/maximize-it/problem?isFullScreen=true)
+
+Note: hackerrank is not allowing numpy to be imported for this solution, but I preferred the cleanliness of numpy's outer sum, so I used that instead of a "by-hand" solution with itertools or similar.
+
+## [Validating Postal Codes](https://www.hackerrank.com/challenges/validating-postalcode/problem?isFullScreen=true)
 
