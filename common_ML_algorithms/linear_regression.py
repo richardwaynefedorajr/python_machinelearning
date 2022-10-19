@@ -1,25 +1,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
+plt.style.use('seaborn-whitegrid')
 from sklearn.datasets import make_regression
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 import math
 
-## linear regression numpy implementation
+## generate and preprocess data
+x, y = make_regression(n_features=1, n_informative=1, bias=1, noise=35)
 
-def preprocess():
-    ## generate test data
-    x, y = make_regression(n_features=1, n_informative=1, bias=1, noise=35)
-
-    ## make y a column vector and add bias column to x
-    y = y.reshape((-1, 1))
-    x = np.concatenate([x, np.ones_like(y)], axis=1)
-    return x, y
-
-## preprocess data and add to plot
-x, y = preprocess()
-plt.scatter(x[:,:-1], y)
+## make y a column vector and add bias column to x
+y = y.reshape((-1, 1))
+x = np.concatenate([x, np.ones_like(y)], axis=1)
 
 ## "train" -> calculate weights for linear regression best fit
 ## numpy closed form implementation
@@ -31,7 +24,7 @@ else:
 
 ## tensorflow implementation
 tf_model = tf.keras.Sequential(layers.Dense(units=1))
-tf_model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=0.1),loss='mean_absolute_error')
+tf_model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=0.1),loss='mean_squared_error')
 tf_model.fit(x,y,epochs=100,verbose=0,validation_split = 0.2)
 tf_model.summary()
 
@@ -39,6 +32,14 @@ tf_model.summary()
 y_hat_solve = np.matmul(x, weights)
 y_hat_tf = tf_model.predict(x)
 
-plt.plot(x[:,:-1], y_hat_solve, color='blue')
-plt.plot(x[:,:-1], y_hat_tf, color='orange')
+## add data to plot
+fig = plt.figure()
+ax = plt.axes()
+ax.scatter(x[:,:-1], y, color='green', marker='.')
+ax.plot(x[:,:-1], y_hat_solve, color='blue', linestyle='solid', label='NumPy [MSE = '+str(round(np.square(x[:,:-1] - y_hat_solve).mean(),2))+']')
+ax.plot(x[:,:-1], y_hat_tf, color='cyan', linestyle='solid', label='Tensorflow [MSE = '+str(round(np.square(x[:,:-1] - y_hat_tf).mean(),2))+']')
+ax.set_title('Numpy and Tensorflow linear regressions')
+ax.set_xlabel("x")
+ax.set_ylabel("y")
+ax.legend()
 plt.show()
