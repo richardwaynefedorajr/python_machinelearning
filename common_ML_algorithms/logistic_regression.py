@@ -1,40 +1,54 @@
 import numpy as np
+import pandas as pd
 from matplotlib import cm
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-from sklearn.datasets import load_iris
+import seaborn as sns
+from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
-## load and split
-iris_data = load_iris()
-X_train, X_test, y_train, y_test = train_test_split( iris_data.data, iris_data.target, test_size = 0.3, random_state = 100 )
+## load, split, and preprocess data
+cancer = datasets.load_breast_cancer()
+X_train, X_test, y_train, y_test = train_test_split( cancer.data, cancer.target, test_size = 0.1, random_state = 100 )
+
+# massage data for numpy solution
+y_train_np = y_train.reshape((-1,1))
+y_test_np = y_test.reshape((-1,1))
+X_train_np = np.concatenate([X_train, np.ones_like(y_train_np, dtype=np.float32)], axis=1)
+X_test_np = np.concatenate([X_test, np.ones((X_test.shape[0], 1), dtype=np.float32)], axis=1)
 
 ## train
-model = LogisticRegression().fit(X_train, y_train)
+sk_model = LogisticRegression().fit(X_train, y_train)
 
+if X_train_np.shape[0] >= X_train_np.shape[1] == np.linalg.matrix_rank(X_train_np):
+    y_train_np = np.maximum(1e-5, np.minimum(y_train_np.astype(np.float32), 1-1e-5))
+    # w = [(X^T*T)^-1*X^T]*log(1/y) -1
+    weights =  np.matmul( np.matmul( np.linalg.inv( np.matmul( X_train_np.transpose(), X_train_np) ),
+               X_train_np.transpose()), -np.log(np.divide(1, y_train_np) - 1))
+else:
+    print('X does not have full column rank')
+    weights = 0
+    
 ## predict
-y_hat = model.predict(X_test)
+y_hat_sk = sk_model.predict(X_test)
+y_hat_np = np.divide(1, 1+np.exp(-np.matmul(X_test_np, weights)))
+zeros, ones = np.zeros_like(y_hat_np), np.ones_like(y_hat_np)
+y_hat_np = np.where(y_hat_np >= 0.5, ones, zeros)
 
 ## accuracy
-print(np.mean(y_hat == y_test))
+print(np.mean(y_hat_sk == y_test))
+print(np.mean((np.where(y_test_np >= 0.5, ones, zeros) == np.where(y_hat_np >= 0.5, ones, zeros)).astype(np.float32)))
 
-## add data to plot
-cmap = cm.get_cmap('viridis')
-fig = plt.figure()
-ax = plt.axes()
-ax.scatter(X_test[:,0], X_test[:,1], alpha=X_test[:,2]/X_test[:,2].max(), s=100*X_test[:,3], c=y_test, cmap='viridis')
-ax.scatter(X_test[:,0], X_test[:,1], marker='+', c=y_hat, cmap='viridis')
-ax.set_title('sklearn logistic regression\nTest data - transparency scaled based on '
-             +iris_data.feature_names[2]+' and size scaled based on '+iris_data.feature_names[3]+'\n'
-             +str(round(np.mean(y_hat == y_test)*100,2))+'% accuracy')
-ax.set_xlabel(iris_data.feature_names[0])
-ax.set_ylabel(iris_data.feature_names[1])
-legend_elements = [Line2D([0], [0], marker='o', color='w', label=iris_data.target_names[0], markerfacecolor=cmap(0), markersize=10),
-                    Line2D([0], [0], marker='o', color='w', label=iris_data.target_names[1], markerfacecolor=cmap(127), markersize=10),
-                    Line2D([0], [0], marker='o', color='w', label=iris_data.target_names[2], markerfacecolor=cmap(255), markersize=10),
-                    Line2D([0], [0], marker='P', color='w', label=iris_data.target_names[0]+' predicted', markerfacecolor=cmap(0), markersize=10),
-                    Line2D([0], [0], marker='P', color='w', label=iris_data.target_names[1]+' predicted', markerfacecolor=cmap(127), markersize=10),
-                    Line2D([0], [0], marker='P', color='w', label=iris_data.target_names[2]+' predicted', markerfacecolor=cmap(255), markersize=10)]
-ax.legend(handles=legend_elements, loc='best', ncol=2)
-plt.show()
+## add data to plot (data frame for seaborn plotting)
+## classify errors: 2 = np solution misclassified, 3 = sk misclassified, 4 = both misclassifed
+y_plot = np.where(y_hat_np[:,0] == y_test, y_test, ones[:,0]*2)
+y_plot = np.where(y_hat_sk == y_test, y_test, ones[:,0]*3)
+y_plot = np.where((y_hat_np[:,0] == y_test) & (y_hat_sk == y_test), y_test, ones[:,0]*4)
+
+# dataframe for seaborn plot
+cancer_df = pd.DataFrame(np.c_[X_test, y_plot], columns= np.append(cancer['feature_names'], ['target']))
+sns.pairplot(cancer_df, hue='target', vars=cancer.feature_names[6:10])
+plt.colorbar(ticks=range(6), label='digit value')
+#plt.figure(figsize=(20,12))
+#sns.heatmap(cancer_df.corr(), annot=True)
