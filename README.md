@@ -2,4 +2,6 @@
 
 Various machine learning implementations
 
-Also includes some interesting computer vision implementations
+Some interesting computer vision implementations
+
+Implementations to solve various job interview test question type problems
