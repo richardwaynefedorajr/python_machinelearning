@@ -32,19 +32,19 @@ sns.histplot(data=iris_df, x=iris_data.feature_names[0], bins=50, color="chartre
 sns.histplot(data=iris_df, x=iris_data.feature_names[1], bins=50, color="lawngreen", ax=axs[0, 1])
 sns.histplot(data=iris_df, x=iris_data.feature_names[2], bins=50, color="green", ax=axs[1, 0])
 sns.histplot(data=iris_df, x=iris_data.feature_names[3], bins=50, color="lime", ax=axs[1, 1])
-plt.show()
 plt.savefig('knn_histograms.png')
+plt.show()
 
 ## correlation matrix
 ax = sns.heatmap(iris_df[iris_data.feature_names].corr(), cmap="Greens", annot=True, square=True)
 ax.set_ylim(0, len(iris_df[iris_data.feature_names].corr()))
-plt.show()
 plt.savefig('knn_corr_matrix.png')
+plt.show()
 
 ## pairplots
 iris_df['target'][iris_df["target"] == 0.0] = iris_data.target_names[0]
 iris_df['target'][iris_df["target"] == 1.0] = iris_data.target_names[1]
 iris_df['target'][iris_df["target"] == 2.0] = iris_data.target_names[2]
 sns.pairplot(iris_df, hue="target")
-plt.show()
 plt.savefig('knn_pairplots.png')
+plt.show()
