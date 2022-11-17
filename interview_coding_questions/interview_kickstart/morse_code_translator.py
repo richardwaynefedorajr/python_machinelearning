@@ -1,6 +1,7 @@
-# Write a code in Python to create a Morse code translator.
-# The code should return the Morse code that is equivalent to the string.
-# Space between words is denoted with an _
+## Write a code in Python to create a Morse code translator.
+## The code should return the Morse code that is equivalent to the string.
+## Space between words is denoted with an _
+
 alphabet = { 'A':'.-', 'B':'-...', 'C':'-.-.', 'D':'-..', 'E':'.',
              'F':'..-.', 'G':'--.', 'H':'....', 'I':'..', 'J':'.---', 'K':'-.-',
              'L':'.-..', 'M':'--', 'N':'-.', 'O':'---', 'P':'.--.', 'Q':'--.-',
