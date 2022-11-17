@@ -73,6 +73,8 @@ and visualize the distributions and relationships between features in the datase
 
 ### Tune Hyperparameters
 
+Use cross validation to determine optimal k (number of nearest neighbors):
+
 | ![k values](./knn/knn_k_values.png) |
 |:--:| 
 | *k values vs. accuracy* |
