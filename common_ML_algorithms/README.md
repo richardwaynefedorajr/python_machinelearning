@@ -16,4 +16,10 @@ scikit-learn implementation using iris dataset
 
 sci-kit learn implementation using iris dataset
 
-![Histograms](./knn/knn_histograms.png) ![Correlation matrix](./knn/knn_corr_matrix.png) ![Pair plots](./knn/knn_pairplots.png)
+### descriptive visualizations of dataset
+
+![Histograms](./knn/knn_histograms.png)
+
+![Correlation matrix](./knn/knn_corr_matrix.png) 
+
+![Pair plots](./knn/knn_pairplots.png)
