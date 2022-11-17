@@ -6,6 +6,7 @@ Various implementations of common machine learning algorithms
 Closed form solution compared to tensorflow implementation:
 
 ![Example linear regression output](./linear_regression/linear_regression.png)
+*Example linear regression output*
 
 ## Logistic Regression
 scikit-learn implementation using iris dataset
