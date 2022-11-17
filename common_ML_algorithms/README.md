@@ -34,6 +34,12 @@ sci-kit learn implementation using iris dataset
 |:--:| 
 | *Pair plots* |
 
+### Tune Hyperparameters
+
+| ![k values](./knn/k_values.png) |
+|:--:| 
+| *k values vs. accuracy* |
+
 ## Predictions
 | ![Pair plots for predicted classes](./knn/knn_pairplots_predicted.png) |
 |:--:| 
