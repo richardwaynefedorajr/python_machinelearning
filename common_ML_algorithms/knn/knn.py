@@ -2,6 +2,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
+import numpy as np
+import pandas as pd
 from plotKNN import plotKNN
 
 ## load and split
@@ -21,4 +23,4 @@ y_hat = sk_knn.predict(X_test)
 print("Accuracy:",metrics.accuracy_score(y_test, y_hat))
 
 ## plotting
-plotKNN(iris_data)
+plotKNN(iris_data, X_test, y_test, y_hat)

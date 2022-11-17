@@ -20,7 +20,7 @@ scikit-learn implementation using iris dataset
 
 sci-kit learn implementation using iris dataset
 
-### descriptive visualizations of dataset
+### Descriptive visualizations of dataset
 
 |![Histograms](./knn/knn_histograms.png) |
 |:--:| 
@@ -33,3 +33,8 @@ sci-kit learn implementation using iris dataset
 | ![Pair plots](./knn/knn_pairplots.png) |
 |:--:| 
 | *Pair plots* |
+
+## Predictions
+| ![Pair plots for predicted classes](./knn/knn_pairplots_predicted.png) |
+|:--:| 
+| *Pair plots for predicted classes* |
