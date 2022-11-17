@@ -5,16 +5,16 @@ Various implementations of common machine learning algorithms
 ## Linear Regression
 Closed form solution compared to tensorflow implementation:
 
-![Example linear regression output](./linear_regression/linear_regression.png)
-
-*Example linear regression output*
+| ![Example linear regression output](./linear_regression/linear_regression.png) |
+|:--:| 
+| *Example linear regression output* |
 
 ## Logistic Regression
 scikit-learn implementation using iris dataset
 
-![Logistic regression classification of iris dataset](./logistic_regression/sklearn_logistic_regression.png)
-
-*Logistic regression classification of iris dataset*
+| ![Logistic regression classification of iris dataset](./logistic_regression/sklearn_logistic_regression.png) |
+|:--:| 
+| *Logistic regression classification of iris dataset* |
 
 ## K-nearest neighbors
 
@@ -22,14 +22,14 @@ sci-kit learn implementation using iris dataset
 
 ### descriptive visualizations of dataset
 
-![Histograms](./knn/knn_histograms.png)
+|![Histograms](./knn/knn_histograms.png) |
+|:--:| 
+| *Histograms* |
 
-*Histograms*
+| ![Correlation matrix](./knn/knn_corr_matrix.png)  |
+|:--:| 
+| *Correlation matrix* |
 
-![Correlation matrix](./knn/knn_corr_matrix.png) 
-
-*Correlation matrix*
-
-![Pair plots](./knn/knn_pairplots.png)
-
-*Pair plots*
+| ![Pair plots](./knn/knn_pairplots.png) |
+|:--:| 
+| *Pair plots* |
