@@ -65,9 +65,3 @@ plt.suptitle('Logistic regression results: numpy '+str(round(np.mean(y_hat_np ==
              str(round(np.mean(y_hat_sk == y_test)*100, 2))+'%', y=1.025)
 plt.savefig('logistic_regression_pairplots_predicted.png', bbox_inches='tight')
 plt.show()
-
-plt.figure(figsize=(20,12))
-sns.heatmap(cancer_df.corr(), annot=True)
-plt.title('Feature correlation heatmap')
-plt.savefig('logistic_regression_corr_heatmap.png', bbox_inches='tight')
-plt.show()

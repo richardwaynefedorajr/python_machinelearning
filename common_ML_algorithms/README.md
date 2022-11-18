@@ -9,16 +9,35 @@ Closed form solution compared to tensorflow implementation:
 |:--:| 
 | *Example linear regression output* |
 
-## Logistic Regression
-Comparison of numpy closed form solution to scikit-learn implementation using cancer dataset
+## Naive Bayes
 
-| ![Correlation heatmap](./logistic_regression/logistic_regression_corr_heatmap.png) |
+Full dataset: 
+```console
+Accuracy: 89.47%
+```
+
+But let us check the correlation of features and try to gain some improvement:
+
+| ![Correlation heatmap](./naive_bayes/naive_bayes_corr_heatmap.png) |
 |:--:| 
 | *Feature correlation heatmap for cancer dataset* |
+
+```console
+Accuracy after removing 3 most highly correlated features: 91.23%
+Dropped features: mean perimeter, mean radius, mean area
+```
+
+Interestingly, dropping additional features causes accuracy to degrade again, quickly dropping below the original value
+
+## Logistic Regression
+
+Comparison of numpy closed form solution to scikit-learn implementation using cancer dataset
 
 | ![Logistic regression classification of iris dataset](./logistic_regression/logistic_regression_pairplots_predicted.png) |
 |:--:| 
 | *Logistic regression classification results for cancer dataset* |
+
+In this case, both logisic regression implementations have outperformed the naive bayes results shown above
 
 ## K-nearest neighbors
 
