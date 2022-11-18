@@ -10,11 +10,15 @@ Closed form solution compared to tensorflow implementation:
 | *Example linear regression output* |
 
 ## Logistic Regression
-scikit-learn implementation using iris dataset
+Comparison of numpy closed form solution to scikit-learn implementation using cancer dataset
 
-| ![Logistic regression classification of iris dataset](./logistic_regression/sklearn_logistic_regression.png) |
+| ![Correlation heatmap](./logistic_regression/logistic_regression_corr_heatmap.png) |
 |:--:| 
-| *Logistic regression classification of iris dataset* |
+| *Feature correlation heatmap for cancer dataset* |
+
+| ![Logistic regression classification of iris dataset](./logistic_regression/logistic_regression_pairplots_predicted.png) |
+|:--:| 
+| *Logistic regression classification results for cancer dataset* |
 
 ## K-nearest neighbors
 
@@ -72,6 +76,8 @@ and visualize the distributions and relationships between features in the datase
 | *Pair plots* |
 
 ### Tune Hyperparameters
+
+Use cross validation to determine optimal k (number of nearest neighbors):
 
 | ![k values](./knn/knn_k_values.png) |
 |:--:| 

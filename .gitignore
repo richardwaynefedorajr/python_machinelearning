@@ -1,5 +1,6 @@
 common_ML_algorithms/tensorflow_implementations/aclImdb/
 common_ML_algorithms/tensorflow_implementations/aclImdb_v1.tar.gz
+*.bak
 
 # Vim
 *.swp
