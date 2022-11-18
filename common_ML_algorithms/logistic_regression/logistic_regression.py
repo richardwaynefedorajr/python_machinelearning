@@ -36,19 +36,38 @@ y_hat_np = np.divide(1, 1+np.exp(-np.matmul(X_test_np, weights)))
 zeros, ones = np.zeros_like(y_hat_np), np.ones_like(y_hat_np)
 y_hat_np = np.where(y_hat_np >= 0.5, ones, zeros)
 
-## accuracy
-print(np.mean(y_hat_sk == y_test))
-print(np.mean((np.where(y_test_np >= 0.5, ones, zeros) == np.where(y_hat_np >= 0.5, ones, zeros)).astype(np.float32)))
-
-## add data to plot (data frame for seaborn plotting)
+## plot and evaluate
 ## classify errors: 2 = np solution misclassified, 3 = sk misclassified, 4 = both misclassifed
-y_plot = np.where(y_hat_np[:,0] == y_test, y_test, ones[:,0]*2)
-y_plot = np.where(y_hat_sk == y_test, y_test, ones[:,0]*3)
-y_plot = np.where((y_hat_np[:,0] == y_test) & (y_hat_sk == y_test), y_test, ones[:,0]*4)
+def returnClassificationResults(test, sk, np):
+    if test == sk & test == np:
+        return test
+    elif test != sk & test == np:
+        return 2
+    elif test == sk & test != np:
+        return 3
+    else:
+        return 4
+    
+y_plot = np.array(list(map(returnClassificationResults, y_test, y_hat_sk, y_hat_np)))
 
 # dataframe for seaborn plot
 cancer_df = pd.DataFrame(np.c_[X_test, y_plot], columns= np.append(cancer['feature_names'], ['target']))
-sns.pairplot(cancer_df, hue='target', vars=cancer.feature_names[6:10])
-plt.colorbar(ticks=range(6), label='digit value')
-#plt.figure(figsize=(20,12))
-#sns.heatmap(cancer_df.corr(), annot=True)
+cancer_df = cancer_df.sort_values(by=['target'])
+cancer_df['target'][cancer_df["target"] == 0.0] = 'Correctly classifed as '+cancer.target_names[0]
+cancer_df['target'][cancer_df["target"] == 1.0] = 'Correctly classifed as '+cancer.target_names[1]
+cancer_df['target'][cancer_df["target"] == 2.0] = 'wrongly classified by numpy solution'
+cancer_df['target'][cancer_df["target"] == 3.0] = 'wrongly classified by scikit-learn solution'
+cancer_df['target'][cancer_df["target"] == 4.0] = 'wrongly classified by both numpy and \nscikit-learn solutions'
+
+sns.pairplot(cancer_df, hue='target', palette=['lime', 'darkgreen', 'red', 'darkred', 'crimson'], markers=['D', 'D', 'X', 'X', 'X'], 
+             vars=cancer.feature_names[6:10])
+plt.suptitle('Logistic regression results: numpy '+str(round(np.mean(y_hat_np == y_test_np)*100, 2))+'%, scikit-learn '+
+             str(round(np.mean(y_hat_sk == y_test)*100, 2))+'%', y=1.025)
+plt.savefig('logistic_regression_pairplots_predicted.png', bbox_inches='tight')
+plt.show()
+
+plt.figure(figsize=(20,12))
+sns.heatmap(cancer_df.corr(), annot=True)
+plt.title('Feature correlation heatmap')
+plt.savefig('logistic_regression_corr_heatmap.png', bbox_inches='tight')
+plt.show()
