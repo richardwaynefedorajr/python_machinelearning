@@ -102,7 +102,26 @@ Use cross validation to determine optimal k (number of nearest neighbors):
 |:--:| 
 | *k values vs. accuracy* |
 
-## Predictions
+### Predictions
+
 | ![Pair plots for predicted classes](./knn/knn_pairplots_predicted.png) |
 |:--:| 
 | *Pair plots for predicted classes* |
+
+## Support Vector machine
+
+Initial run with raw dataset
+
+```console
+Accuracy: 92.59%
+```
+
+Let us see if normalization can buy us any improvements:
+
+```console
+Accuracy: 94.44%
+```
+
+| ![svm_scatter](./svm/svm_scatter_predicted.png) |
+|:--:| 
+| *Classifed wine classes as funcion of mean and standard deviation of feature vectors* |

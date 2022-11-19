@@ -1,12 +1,14 @@
 import numpy as np
+import pandas as pd
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn import svm
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import normalize
+from sklearn.pipeline import Pipeline
 from sklearn import metrics
-from matplotlib import cm
 import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
-import matplotlib.font_manager as font_manager
+import seaborn as sns
 
 ## import data
 wine = datasets.load_wine()
@@ -18,28 +20,33 @@ sk_svm = svm.SVC(kernel='linear').fit(X_train, y_train)
 ## predict
 y_hat = sk_svm.predict(X_test)
 
-## accuracy
-print("Accuracy:",metrics.accuracy_score(y_test, y_hat))
-print("Precision:",metrics.precision_score(y_test, y_hat, average='weighted'))
-print("Recall:",metrics.recall_score(y_test, y_hat, average='weighted'))
+## evaluate
+print('Accuracy: '+str(round(100*metrics.accuracy_score(y_test, y_hat), 2))+'%')
+# print('Precision: '+str(round(100*metrics.precision_score(y_test, y_hat, average='weighted'), 2))+'%')
+# print('Recall: '+str(round(100*metrics.recall_score(y_test, y_hat, average='weighted'), 2))+'%')
+print('\n')
+
+## normalize data
+sk_svm_normalized = Pipeline([('scaler', StandardScaler()), ('svm_clf', svm.SVC(kernel='linear'))]).fit(X_train, y_train)
+y_hat_normalized = sk_svm_normalized.predict(X_test)
+print('Accuracy: '+str(round(100*metrics.accuracy_score(y_test, y_hat_normalized), 2))+'%')
+# print('Precision: '+str(round(100*metrics.precision_score(y_test, y_hat_normalized, average='weighted'), 2))+'%')
+# print('Recall: '+str(round(100*metrics.recall_score(y_test, y_hat_normalized, average='weighted'), 2))+'%')
 
 ## add data to plot
-cmap = cm.get_cmap('viridis')
-fig = plt.figure()
-ax = plt.axes()
-ax.scatter(X_test[:,0], X_test[:,1], alpha=X_test[:,2]/X_test[:,2].max(), s=10*X_test[:,3], c=y_test, cmap='viridis')
-ax.scatter(X_test[:,0], X_test[:,1], marker='+', c=y_hat, cmap='viridis')
-ax.set_title('sklearn KNN\nTest data - transparency scaled based on '
-             +wine.feature_names[2]+' and size scaled based on '+wine.feature_names[3]+'\n'
-             +str(round(np.mean(y_hat == y_test)*100,2))+'% accuracy')
-ax.set_xlabel(wine.feature_names[0])
-ax.set_ylabel(wine.feature_names[1])
-legend_elements = [Line2D([0], [0], marker='o', color='w', label=wine.target_names[0], markerfacecolor=cmap(0), markersize=10),
-                   Line2D([0], [0], marker='o', color='w', label=wine.target_names[1], markerfacecolor=cmap(127), markersize=10),
-                   Line2D([0], [0], marker='o', color='w', label=wine.target_names[2], markerfacecolor=cmap(255), markersize=10),
-                   Line2D([0], [0], marker='P', color='w', label=wine.target_names[0]+' predicted', markerfacecolor=cmap(0), markersize=10),
-                   Line2D([0], [0], marker='P', color='w', label=wine.target_names[1]+' predicted', markerfacecolor=cmap(127), markersize=10),
-                   Line2D([0], [0], marker='P', color='w', label=wine.target_names[2]+' predicted', markerfacecolor=cmap(255), markersize=10)]
-font = font_manager.FontProperties(size=6)
-ax.legend(handles=legend_elements, loc='upper right', ncol=2, prop=font)
+X_test = normalize(X_test, axis=0, norm='max')
+y_hat_normalized[y_hat_normalized != y_test] = 3.0
+wine_df = pd.DataFrame(data=np.c_[X_test, y_hat_normalized], columns=wine['feature_names'] + ['target'])
+df_plot = pd.DataFrame(data=np.c_[wine_df[wine.feature_names].mean(axis=1), wine_df[wine.feature_names].std(axis=1), wine_df['target']], 
+                       columns=['Normalized feature vector mean','Normalized feature vector standard deviation', 'target'])
+df_plot['target'][df_plot["target"] == 0.0] = wine.target_names[0]
+df_plot['target'][df_plot["target"] == 1.0] = wine.target_names[1]
+df_plot['target'][df_plot["target"] == 2.0] = wine.target_names[2]
+df_plot['target'][df_plot["target"] == 3.0] = 'Misclassified'
+
+sns.scatterplot(data=df_plot, x='Normalized feature vector mean', y='Normalized feature vector standard deviation', 
+                hue="target", style='target', palette=['greenyellow','lime', 'darkgreen', 'red'], markers=['D','D','D','X'])
+
+plt.suptitle('SVM (normalized data) accuracy: '+str(round(metrics.accuracy_score(y_test, y_hat_normalized)*100, 2))+'%', y=1.025)
+plt.savefig('svm_scatter_predicted.png', bbox_inches='tight')
 plt.show()
