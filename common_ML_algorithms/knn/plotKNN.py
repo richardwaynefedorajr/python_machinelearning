@@ -50,6 +50,6 @@ def plotKNN(input_data, X_test, y_test, y_hat, optimal_k):
     df_pred['target'][df_pred["target"] == 3.0] = 'wrongly classified'
 
     sns.pairplot(df_pred, hue="target", palette=['greenyellow','lime', 'darkgreen', 'red'], markers=["o", "s", "D", "X"])
-    plt.suptitle('KNN results: k = '+str(optimal_k)+' with accuracy: '+str(round(metrics.accuracy_score(y_test, y_hat)*100, 2)+'%'), y=1.025)
+    plt.suptitle('KNN results: k = '+str(optimal_k)+' with accuracy: '+str(round(metrics.accuracy_score(y_test, y_hat)*100, 2))+'%', y=1.025)
     plt.savefig('knn_pairplots_predicted.png', bbox_inches='tight')
     plt.show()

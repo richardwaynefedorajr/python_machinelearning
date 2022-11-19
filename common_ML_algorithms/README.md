@@ -125,3 +125,22 @@ Accuracy: 94.44%
 | ![svm_scatter](./svm/svm_scatter_predicted.png) |
 |:--:| 
 | *Classifed wine classes as funcion of mean and standard deviation of feature vectors* |
+
+## Decision Tree
+
+Compare Gini and entropy criterion:
+
+```console
+Accuracy Gini criterion: 73.4%
+Accuracy Entropy criterion: 70.74%
+```
+
+Decision tree graphs for each criterion:
+
+| ![Gini tree graph](./decision_tree/tree_gini.png) |
+|:--:| 
+| *Gini tree graph* |
+
+| ![Entropy tree graph](./decision_tree/tree_entropy.png) |
+|:--:| 
+| *Entropy tree graph* |
