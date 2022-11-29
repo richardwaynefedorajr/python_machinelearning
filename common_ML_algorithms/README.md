@@ -126,6 +126,14 @@ Accuracy: 94.44%
 |:--:| 
 | *Classifed wine classes as funcion of mean and standard deviation of feature vectors* |
 
+## K-means clustering
+
+Implementation of k-means clustering using scikit learn and randomly generated blobs for test dataset
+
+| ![k-mans](./k_means/k-means.png) |
+|:--:| 
+| *K-means clustering on random blobs* |
+
 ## Decision Tree
 
 Compare Gini and entropy criterion:
