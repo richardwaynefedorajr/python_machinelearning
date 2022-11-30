@@ -7,6 +7,9 @@ import seaborn as sns
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
+
+sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
 
 ## load, split, and preprocess data
 cancer = datasets.load_breast_cancer()
@@ -36,32 +39,22 @@ y_hat_np = np.divide(1, 1+np.exp(-np.matmul(X_test_np, weights)))
 zeros, ones = np.zeros_like(y_hat_np), np.ones_like(y_hat_np)
 y_hat_np = np.where(y_hat_np >= 0.5, ones, zeros)
 
-## plot and evaluate
-## classify errors: 2 = np solution misclassified, 3 = sk misclassified, 4 = both misclassifed
-def returnClassificationResults(test, sk, np):
-    if test == sk & test == np:
-        return test
-    elif test != sk & test == np:
-        return 2
-    elif test == sk & test != np:
-        return 3
-    else:
-        return 4
-    
-y_plot = np.array(list(map(returnClassificationResults, y_test, y_hat_sk, y_hat_np)))
+## evaluate
+confusion_matrix_sk = metrics.confusion_matrix(y_test, y_hat_sk)
+confusion_matrix_np = metrics.confusion_matrix(y_test, y_hat_np)
 
-# dataframe for seaborn plot
-cancer_df = pd.DataFrame(np.c_[X_test, y_plot], columns= np.append(cancer['feature_names'], ['target']))
-cancer_df = cancer_df.sort_values(by=['target'])
-cancer_df['target'][cancer_df["target"] == 0.0] = 'Correctly classifed as '+cancer.target_names[0]
-cancer_df['target'][cancer_df["target"] == 1.0] = 'Correctly classifed as '+cancer.target_names[1]
-cancer_df['target'][cancer_df["target"] == 2.0] = 'wrongly classified by numpy solution'
-cancer_df['target'][cancer_df["target"] == 3.0] = 'wrongly classified by scikit-learn solution'
-cancer_df['target'][cancer_df["target"] == 4.0] = 'wrongly classified by both numpy and \nscikit-learn solutions'
+## plot
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(40,20))
+def plotHeatmap(confusion_matrix, y_hat, y_test, ax, method):
+    sns.heatmap(confusion_matrix/np.sum(confusion_matrix), annot=True, fmt=".2%", linewidths=.5, square = True, 
+            cmap = 'Greens', xticklabels=['malignant','benign'], yticklabels=['malignant','benign'], 
+            ax=ax, cbar_kws={"shrink": 0.75}, annot_kws={'fontsize':30})
+    ax.xaxis.set_tick_params(labelsize = 18)
+    ax.yaxis.set_tick_params(labelsize = 18)
+    ax.set_ylabel('Actual label', fontsize=24)
+    ax.set_xlabel('Predicted label', fontsize=24)
+    ax.set_title('{} Accuracy: {}'.format(method, round(np.mean(y_hat == y_test)*100, 2)), fontsize=36)
 
-sns.pairplot(cancer_df, hue='target', palette=['lime', 'darkgreen', 'red', 'darkred', 'crimson'], markers=['D', 'D', 'X', 'X', 'X'], 
-             vars=cancer.feature_names[6:10])
-plt.suptitle('Logistic regression results: numpy '+str(round(np.mean(y_hat_np == y_test_np)*100, 2))+'%, scikit-learn '+
-             str(round(np.mean(y_hat_sk == y_test)*100, 2))+'%', y=1.025)
-plt.savefig('logistic_regression_pairplots_predicted.png', bbox_inches='tight')
-plt.show()
+plotHeatmap(confusion_matrix_sk, y_hat_sk, y_test, ax1, 'Scikit')
+plotHeatmap(confusion_matrix_np, y_hat_np, y_test_np, ax2, 'Numpy')
+plt.savefig('logistic_regression_confusion_matrices.png', bbox_inches='tight')

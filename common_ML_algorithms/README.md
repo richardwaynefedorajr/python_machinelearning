@@ -33,7 +33,7 @@ Interestingly, dropping additional features causes accuracy to degrade again, qu
 
 Comparison of numpy closed form solution to scikit-learn implementation using cancer dataset
 
-| ![Logistic regression classification of iris dataset](./logistic_regression/logistic_regression_pairplots_predicted.png) |
+| ![Logistic regression classification of iris dataset](./logistic_regression/logistic_regression_confusion_matrices.png) |
 |:--:| 
 | *Logistic regression classification results for cancer dataset* |
 
@@ -89,10 +89,6 @@ and visualize the distributions and relationships between features in the datase
 | ![Correlation matrix](./knn/knn_corr_matrix.png)  |
 |:--:| 
 | *Correlation matrix* |
-
-| ![Pair plots](./knn/knn_pairplots.png) |
-|:--:| 
-| *Pair plots* |
 
 ### Tune Hyperparameters
 
