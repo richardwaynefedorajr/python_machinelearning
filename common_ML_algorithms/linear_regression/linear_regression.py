@@ -1,11 +1,16 @@
 import numpy as np
 import matplotlib.pyplot as plt
-plt.style.use('seaborn-whitegrid')
+# plt.style.use('seaborn-whitegrid')
 from sklearn.datasets import make_regression
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
+from sklearn.linear_model import Ridge
+from sklearn import linear_model
+import pandas as pd
+import seaborn as sns
 import math
+sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
 
 ## generate and preprocess data
 x, y = make_regression(n_features=1, n_informative=1, bias=1, noise=35)
@@ -28,18 +33,42 @@ tf_model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=0.1),loss='mean
 tf_model.fit(x,y,epochs=100,verbose=0,validation_split = 0.2)
 tf_model.summary()
 
+## ridge regression implementation
+sk_ridge = Ridge(alpha=5.0).fit(x,y)
+
+
+## LASSO implementation
+sk_lasso = linear_model.Lasso(alpha=5.0).fit(x,y)
+
 ## predict
 y_hat_solve = np.matmul(x, weights)
 y_hat_tf = tf_model.predict(x)
+y_hat_ridge = sk_ridge.predict(x)
+y_hat_lasso = sk_lasso.predict(x)
+
+## evaluate
+squared_error_solve = np.square(x[:,:-1] - y_hat_solve)
+squared_error_tf = np.square(x[:,:-1] - y_hat_tf)
+squared_error_ridge = np.square(x[:,:-1] - y_hat_ridge)
+squared_error_lasso = np.square(x[:,:-1] - y_hat_lasso)
 
 ## add data to plot
 fig = plt.figure()
 ax = plt.axes()
-ax.scatter(x[:,:-1], y, color='green', marker='.')
-ax.plot(x[:,:-1], y_hat_solve, color='blue', linestyle='solid', label='NumPy [MSE = '+str(round(np.square(x[:,:-1] - y_hat_solve).mean(),2))+']')
-ax.plot(x[:,:-1], y_hat_tf, color='cyan', linestyle='solid', label='Tensorflow [MSE = '+str(round(np.square(x[:,:-1] - y_hat_tf).mean(),2))+']')
-ax.set_title('Numpy and Tensorflow linear regressions')
+df = pd.DataFrame(data=np.c_[x[:,:-1], y, y_hat_solve, y_hat_tf, squared_error_solve, squared_error_tf], 
+                  columns=['x','y','y_hat_solve','y_hat_tf','squared_error_solve','squared_error_tf'])
+sns.scatterplot(data=df, x='x', y='y', ax=ax, edgecolor='black', s=20, c='greenyellow')
+ax.plot(x[:,:-1], y_hat_solve, color='green', linestyle='solid', linewidth=0.5,
+        label='NumPy [MSE = '+str(round(squared_error_solve.mean(),2))+']')
+ax.plot(x[:,:-1], y_hat_tf, color='blue', linestyle='solid', linewidth=0.5,
+        label='Tensorflow [MSE = '+str(round(squared_error_tf.mean(),2))+']')
+ax.plot(x[:,:-1], y_hat_ridge, color='cyan', linestyle='solid', linewidth=0.5,
+        label='Scikit Ridge [MSE = '+str(round(squared_error_ridge.mean(),2))+']')
+ax.plot(x[:,:-1], y_hat_lasso, color='yellow', linestyle='solid', linewidth=0.5,
+        label='Scikit LASSO [MSE = '+str(round(squared_error_lasso.mean(),2))+']')
+ax.set_title('Comparison of linear regressions')
 ax.set_xlabel("x")
 ax.set_ylabel("y")
-ax.legend()
+ax.legend(fontsize=8)
+plt.savefig('linear_regression.png', bbox_inches='tight')
 plt.show()

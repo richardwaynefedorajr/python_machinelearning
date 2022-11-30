@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 def plotKNN(input_data, X_test, y_test, y_hat, optimal_k):
-        
+    sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
+
     ## create dataframe for visualization
     df = pd.DataFrame(data=np.c_[input_data['data'], input_data['target']], columns=input_data['feature_names'] + ['target'])
     pd.options.display.max_columns = None

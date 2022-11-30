@@ -8,6 +8,7 @@ from sklearn import preprocessing
 from IPython.display import clear_output
 import matplotlib.pyplot as plt
 import seaborn as sns
+sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
 
 ## initializations
 seed = random.randint(1,10) # or set to constant2..0020000
@@ -38,8 +39,7 @@ for i in range(n_clusters):
     df = pd.DataFrame(data=np.c_[X, y_hat], columns=['X_x','X_y','y_hat'])
     plt.figure(figsize=(10, 10))
     ax_current = axs[np.unravel_index(i, (n_subplot_rows, n_subplot_cols))]
-    sns.scatterplot(data=df, x='X_x', y='X_y', hue='y_hat', palette='viridis', alpha=distances, legend='full', 
-                         ax=ax_current)
+    sns.scatterplot(data=df, x='X_x', y='X_y', hue='y_hat', palette='viridis', alpha=distances, legend='full', ax=ax_current)
     # sns.move_legend(ax_current, "upper left", bbox_to_anchor=(1, 1))
     ax_current.scatter(centroids[:, 0], centroids[:, 1], edgecolor='black', s=75, c='r', marker='D')
     ax_current.set_title("# of clusters = {}".format(i+1), fontsize=16)
