@@ -2,17 +2,22 @@
 
 Collection of python implementations for coding challenges located [here](https://www.hackerrank.com/domains/python?filters%5Bdifficulty%5D%5B%5D=medium&filters%5Bdifficulty%5D%5B%5D=hard)
 
-Note:  these challenges are generally asking to read inputs from standard input in some specified format... this is annoying to debug because you have to enter data manually every time you run your program, so generally these implementations will have input values hard-coded... some include the functionality to read inputs as well.
+Note:  these challenges are generally asking to read inputs from standard input in some specified format... this can be annoying to debug, so input values may be hard-coded...
 
 ## [Write a function](https://www.hackerrank.com/challenges/write-a-function/problem?isFullScreen=true)
+[leap_year.py](https://github.com/richardwaynefedorajr/python_machinelearning/blob/main/interview_coding_questions/hackerrank/leap_year.py)
 
 ## [The Minion Game](https://www.hackerrank.com/challenges/the-minion-game?isFullScreen=true)
+[minion_game.py](https://github.com/richardwaynefedorajr/python_machinelearning/blob/main/interview_coding_questions/hackerrank/minion_game.py)
 
 ## [Merge the Tools](https://www.hackerrank.com/challenges/merge-the-tools?isFullScreen=true)
+[merge_the_tools.py](https://github.com/richardwaynefedorajr/python_machinelearning/blob/main/interview_coding_questions/hackerrank/merge_the_tools.py)
 
 ## [Time Delta](https://www.hackerrank.com/challenges/python-time-delta?isFullScreen=true)
+[time_delta.py](https://github.com/richardwaynefedorajr/python_machinelearning/blob/main/interview_coding_questions/hackerrank/time_delta.py)
 
 ## [Find Angle ABC](https://www.hackerrank.com/challenges/find-angle/problem?isFullScreen=true)
+[angle_problem.py](https://github.com/richardwaynefedorajr/python_machinelearning/blob/main/interview_coding_questions/hackerrank/angle_problem.py)
 
 ## [No Idea!](https://www.hackerrank.com/challenges/no-idea/problem?isFullScreen=true)
 
@@ -44,7 +49,7 @@ sep=''
 
 ## [Itereables and Iterators](https://www.hackerrank.com/challenges/iterables-and-iterators/problem?isFullScreen=true)
 
-## [Triangle Queset](https://www.hackerrank.com/challenges/python-quest-1/problem?isFullScreen=true)
+## [Triangle Quest](https://www.hackerrank.com/challenges/python-quest-1/problem?isFullScreen=true)
 Note: this is the same math trick as [Triangle Quest 2](https://www.hackerrank.com/challenges/triangle-quest-2/problem?isFullScreen=true) -> see above
 
 ## [Classes: Dealing with Complex Numbers](https://www.hackerrank.com/challenges/class-1-dealing-with-complex-numbers/problem?isFullScreen=true)

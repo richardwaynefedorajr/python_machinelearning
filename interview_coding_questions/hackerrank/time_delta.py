@@ -1,8 +1,5 @@
-import math
-import os
-import random
-import re
-import sys
+## Given two timestamps in format Day dd Mon yyyy hh:mm:ss +xxxx, print the absolute difference (in seconds) between them
+
 from datetime import datetime
 
 def time_delta(t1, t2):

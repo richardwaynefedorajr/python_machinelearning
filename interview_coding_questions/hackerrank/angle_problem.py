@@ -1,8 +1,14 @@
+## ABC is a right triangle, 90 deg at B
+## Therefore, ABC = 90 deg
+## Point M is the midpoint of hypotenuse AC
+## You are given the lengths AB and BC
+## Your task is to find angle MBC in degrees.
+
 from math import sin, asin, cos, atan, sqrt, degrees
 
-##AB = int(input())
-##BC = int(input())
-
+## initialize known variables
+#AB = int(input())
+#BC = int(input())
 AB = 10
 BC = 10
 
@@ -16,5 +22,7 @@ MC = 0.5*sqrt(AB**2 + BC**2)
 MB = sqrt(BC**2 + MC**2 - 2*BC*MC*cos(angle_BCM))
 
 ## law of sines
-theta = degrees( asin( sin(angle_BCM)*MC / MB ) )
-print(str(round(theta))+chr(176))
+angle_MBC = degrees( asin( sin(angle_BCM)*MC / MB ) )
+
+## print result
+print(str(round(angle_MBC))+chr(176))

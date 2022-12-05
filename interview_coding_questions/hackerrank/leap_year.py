@@ -18,7 +18,7 @@
 ##1900 <= year <= 10^5
 
 ##Output Format
-##The function must return a Boolean value (True/False). Output is handled by the provided code stub.
+##The function must return a Boolean value (True/False)
 
 ##Sample Input 0
 ##1990
@@ -29,11 +29,15 @@
 ##Explanation 0
 ##1990 is not a multiple of 4 hence it's not a leap year.
 
+def isDivisibleBy(dividend, divisor):
+    return True if dividend % divisor == 0 else False
+
 def is_leap(year):
     if year < 1900 or year > 10**5:
         print("input is outside constraints 1900 <= year <= 10^5")
         return False
-    else: 
-        return (year % 4 == 0 & year % 100 != 0) | (year % 400 == 0)
-
+    else:
+        return isDivisibleBy(year, 400) or (isDivisibleBy(year, 4) and not isDivisibleBy(year, 100))
+    
+# print(is_leap(int(input('Input year between 1900 and 10000:'))))
 print(is_leap(2000))
