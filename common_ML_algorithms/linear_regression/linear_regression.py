@@ -47,10 +47,10 @@ y_hat_ridge = sk_ridge.predict(x)
 y_hat_lasso = sk_lasso.predict(x)
 
 ## evaluate
-squared_error_solve = np.square(x[:,:-1] - y_hat_solve)
-squared_error_tf = np.square(x[:,:-1] - y_hat_tf)
-squared_error_ridge = np.square(x[:,:-1] - y_hat_ridge)
-squared_error_lasso = np.square(x[:,:-1] - y_hat_lasso)
+squared_error_solve = np.square(y - y_hat_solve)
+squared_error_tf = np.square(y - y_hat_tf)
+squared_error_ridge = np.square(y - y_hat_ridge)
+squared_error_lasso = np.square(y - y_hat_lasso)
 
 ## add data to plot
 fig = plt.figure()

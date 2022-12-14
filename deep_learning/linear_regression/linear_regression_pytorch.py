@@ -9,10 +9,10 @@ import seaborn as sns
 sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
 
 # hyperparameters
-w = torch.tensor([2, -3.4])
+w = torch.tensor([2.0]) #, -3.4])
 b = 4.2
-noise=0.01
-num_samples = 1000
+noise=0.5
+num_samples = 100
 epochs = 250
 lr = 0.01
 
@@ -43,17 +43,18 @@ for epoch in range(epochs):
 y_hat = model(X)
 
 # evaluate
-squared_error = np.square(X[:,0] - y_hat.detach())
+squared_error = np.square(y - y_hat.detach()).numpy()
 
 ## add data to plot
 fig = plt.figure()
 ax = plt.axes()
 df = pd.DataFrame(data=np.c_[X[:,0], y, y_hat.detach()], columns=['X','y','y_hat'])
-sns.scatterplot(data=df, x='X', y='y', ax=ax, edgecolor='black', s=abs(y-y_hat.detach())*500, c='greenyellow')
-sns.scatterplot(data=df, x='X', y='y_hat', ax=ax, marker='o', edgecolor='black', s=2, c='darkgreen')
-ax.set_title('Pytorch linear regression')
+sns.scatterplot(data=df, x='X', y='y', ax=ax, edgecolor='black', size=np.abs(y-y_hat.detach())[:,0], c='greenyellow')
+# sns.scatterplot(data=df, x='X', y='y_hat', ax=ax, marker='o', edgecolor='black', s=2, c='darkgreen')
+ax.plot(X[:,0], y_hat.detach(), color='green', linestyle='solid', linewidth=1, label='y_hat')
+ax.set_title('Pytorch linear regression [MSE = '+str(round(squared_error.mean(),2))+']')
 ax.set_xlabel("x")
 ax.set_ylabel("y")
-ax.legend(fontsize=8)
+ax.legend(fontsize=8, title_fontsize=8, title='marker size for\nerror values')
 plt.savefig('linear_regression_torch.svg', bbox_inches='tight')
 plt.show()
