@@ -3,7 +3,7 @@
 Various implementations of common machine learning algorithms
 
 ## Linear Regression
-Closed form solution compared to tensorflow implementation:
+Closed form solution compared to tensorflow implementation and scikit-learn LASSO and Ridge regressions:
 
 | ![Example linear regression output](./linear_regression/linear_regression.png) |
 |:--:| 
