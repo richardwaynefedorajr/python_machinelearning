@@ -10,8 +10,8 @@ import seaborn as sns
 sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
 
 # hyperparameters
-w = tf.constant([2.0]) #, -3.4])
-b = 4.2
+w = tf.constant([-3.2]) #, -3.4])
+b = 6.4
 noise = 0.5
 num_samples = 100
 
