@@ -9,8 +9,8 @@ import seaborn as sns
 sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
 
 # hyperparameters
-w = torch.tensor([2.0]) #, -3.4])
-b = 4.2
+w = torch.tensor([1.7]) #, -3.4])
+b = 5.3
 noise=0.5
 num_samples = 100
 epochs = 250
