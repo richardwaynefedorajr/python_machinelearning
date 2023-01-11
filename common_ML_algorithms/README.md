@@ -9,7 +9,7 @@ Various implementations of common machine learning algorithms
 ### Linear Regression
 Closed form solution compared to tensorflow implementation and scikit-learn LASSO and Ridge regressions:
 
-| ![Example linear regression output](./linear_regression/linear_regression.png) |
+| ![Example linear regression output](./linear_regression/linear_regression.svg) |
 |:--:| 
 | *Example linear regression output* |
 
@@ -108,13 +108,9 @@ min             4.300000          2.000000           1.000000          0.100000 
 max             7.900000          4.400000           6.900000          2.500000    2.000000
 ```
 
-and visualize the distributions and relationships between features in the dataset:
+and map the correlation between features in the dataset:
 
-|![Histograms](./knn/knn_histograms.png) |
-|:--:| 
-| *Histograms* |
-
-| ![Correlation matrix](./knn/knn_corr_matrix.png)  |
+| ![Correlation matrix](./knn/knn_corr_matrix.svg)  |
 |:--:| 
 | *Correlation matrix* |
 
@@ -122,13 +118,13 @@ and visualize the distributions and relationships between features in the datase
 
 Use cross validation to determine optimal k (number of nearest neighbors):
 
-| ![k values](./knn/knn_k_values.png) |
+| ![k values](./knn/knn_k_values.svg) |
 |:--:| 
 | *k values vs. accuracy* |
 
 #### Predictions
 
-| ![Pair plots for predicted classes](./knn/knn_pairplots_predicted.png) |
+| ![Pair plots for predicted classes](./knn/knn_pairplots_predicted.svg) |
 |:--:| 
 | *Pair plots for predicted classes* |
 

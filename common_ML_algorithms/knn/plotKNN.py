@@ -21,7 +21,7 @@ def plotKNN(input_data, X_test, y_test, y_hat, optimal_k):
     sns.histplot(data=df, x=input_data.feature_names[3], bins=50, color="lime", ax=axs[1, 1])
     plt.suptitle('Histograms of iris dataset features')
     fig.tight_layout()
-    plt.savefig('knn_histograms.png', bbox_inches='tight')
+    plt.savefig('knn_histograms.svg', bbox_inches='tight')
     plt.show()
     
     ## correlation matrix
@@ -29,7 +29,7 @@ def plotKNN(input_data, X_test, y_test, y_hat, optimal_k):
     ax.set_ylim(0, len(df[input_data.feature_names].corr()))
     plt.title('Correlation matrix for iris dataset features', y=1.05)
     plt.tight_layout()
-    plt.savefig('knn_corr_matrix.png', bbox_inches='tight')
+    plt.savefig('knn_corr_matrix.svg', bbox_inches='tight')
     plt.show()
     
     ## prediction pairplots -> evaluate accuracy
@@ -43,5 +43,5 @@ def plotKNN(input_data, X_test, y_test, y_hat, optimal_k):
 
     sns.pairplot(df_pred, hue="target", palette=['greenyellow','lime', 'darkgreen', 'red'], markers=["o", "s", "D", "X"])
     plt.suptitle('KNN results: k = '+str(optimal_k)+' with accuracy: '+str(round(metrics.accuracy_score(y_test, y_hat)*100, 2))+'%', y=1.025)
-    plt.savefig('knn_pairplots_predicted.png', bbox_inches='tight')
+    plt.savefig('knn_pairplots_predicted.svg', bbox_inches='tight')
     plt.show()

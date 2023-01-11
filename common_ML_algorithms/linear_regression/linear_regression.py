@@ -36,7 +36,6 @@ tf_model.summary()
 ## ridge regression implementation
 sk_ridge = Ridge(alpha=5.0).fit(x,y)
 
-
 ## LASSO implementation
 sk_lasso = linear_model.Lasso(alpha=5.0).fit(x,y)
 
@@ -66,9 +65,9 @@ ax.plot(x[:,:-1], y_hat_ridge, color='cyan', linestyle='solid', linewidth=0.5,
         label='Scikit Ridge [MSE = '+str(round(squared_error_ridge.mean(),2))+']')
 ax.plot(x[:,:-1], y_hat_lasso, color='yellow', linestyle='solid', linewidth=0.5,
         label='Scikit LASSO [MSE = '+str(round(squared_error_lasso.mean(),2))+']')
-ax.set_title('Comparison of linear regressions')
+ax.set_title('Comparison of Linear Regressions')
 ax.set_xlabel("x")
 ax.set_ylabel("y")
 ax.legend(fontsize=8)
-plt.savefig('linear_regression.png', bbox_inches='tight')
+plt.savefig('linear_regression.svg', bbox_inches='tight')
 plt.show()
