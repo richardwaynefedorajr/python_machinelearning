@@ -53,8 +53,8 @@ def plotHeatmap(confusion_matrix, y_hat, y_test, ax, method):
     ax.yaxis.set_tick_params(labelsize = 18)
     ax.set_ylabel('Actual label', fontsize=24)
     ax.set_xlabel('Predicted label', fontsize=24)
-    ax.set_title('{} Accuracy: {}'.format(method, round(np.mean(y_hat == y_test)*100, 2)), fontsize=36)
+    ax.set_title('{} Accuracy: {}%'.format(method, round(np.mean(y_hat == y_test)*100, 2)), fontsize=36)
 
 plotHeatmap(confusion_matrix_sk, y_hat_sk, y_test, ax1, 'Scikit')
 plotHeatmap(confusion_matrix_np, y_hat_np, y_test_np, ax2, 'Numpy')
-plt.savefig('logistic_regression_confusion_matrices.png', bbox_inches='tight')
+plt.savefig('logistic_regression_confusion_matrices.svg', bbox_inches='tight')

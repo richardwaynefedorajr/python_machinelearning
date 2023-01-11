@@ -2,14 +2,22 @@
 
 Various implementations of common machine learning algorithms
 
-## Linear Regression
+# Supervised Learning
+
+## Regression
+
+### Linear Regression
 Closed form solution compared to tensorflow implementation and scikit-learn LASSO and Ridge regressions:
 
 | ![Example linear regression output](./linear_regression/linear_regression.png) |
 |:--:| 
 | *Example linear regression output* |
 
-## Naive Bayes
+## Classification
+
+### Cancer Dataset - Naive Bayes, SVM, and Logistic Regression
+
+#### Naive Bayes
 
 Full dataset: 
 ```console
@@ -18,7 +26,7 @@ Accuracy: 89.47%
 
 But let us check the correlation of features and try to gain some improvement:
 
-| ![Correlation heatmap](./naive_bayes/naive_bayes_corr_heatmap.png) |
+| ![Correlation heatmap](./naive_bayes/naive_bayes_corr_heatmap.svg) |
 |:--:| 
 | *Feature correlation heatmap for cancer dataset* |
 
@@ -27,9 +35,13 @@ Accuracy after removing 3 most highly correlated features: 91.23%
 Dropped features: mean perimeter, mean radius, mean area
 ```
 
-Interestingly, dropping additional features causes accuracy to degrade again, quickly dropping below the original value
+After dimensionality reduction leads accuracy to approach closed form solution, dropping additional features causes accuracy to degrade again, quickly dropping below the original value
 
-## Logistic Regression
+| ![Confusion matrices](./naive_bayes/naive_bayes_confusion_matrices.svg) |
+|:--:| 
+| *Feature correlation heatmap for cancer dataset* |
+
+#### Logistic Regression
 
 Comparison of numpy closed form solution to scikit-learn implementation using cancer dataset
 
@@ -37,13 +49,29 @@ Comparison of numpy closed form solution to scikit-learn implementation using ca
 |:--:| 
 | *Logistic regression classification results for cancer dataset* |
 
-In this case, both logisic regression implementations have outperformed the naive bayes results shown above
+#### Support Vector machine
 
-## K-nearest neighbors
+Initial run with raw dataset
+
+```console
+Accuracy: 92.59%
+```
+
+Let us see if normalization can buy us any improvements:
+
+```console
+Accuracy: 94.44%
+```
+
+| ![svm_scatter](./svm/svm_scatter_predicted.png) |
+|:--:| 
+| *Classifed wine classes as funcion of mean and standard deviation of feature vectors* |
+
+### K-nearest neighbors
 
 sci-kit learn implementation using iris dataset
 
-### Descriptive visualizations of dataset
+#### Descriptive visualizations of dataset
 
 Print the descriptive statistics on the dataset:
 
@@ -90,7 +118,7 @@ and visualize the distributions and relationships between features in the datase
 |:--:| 
 | *Correlation matrix* |
 
-### Tune Hyperparameters
+#### Tune Hyperparameters
 
 Use cross validation to determine optimal k (number of nearest neighbors):
 
@@ -98,39 +126,13 @@ Use cross validation to determine optimal k (number of nearest neighbors):
 |:--:| 
 | *k values vs. accuracy* |
 
-### Predictions
+#### Predictions
 
 | ![Pair plots for predicted classes](./knn/knn_pairplots_predicted.png) |
 |:--:| 
 | *Pair plots for predicted classes* |
 
-## Support Vector machine
-
-Initial run with raw dataset
-
-```console
-Accuracy: 92.59%
-```
-
-Let us see if normalization can buy us any improvements:
-
-```console
-Accuracy: 94.44%
-```
-
-| ![svm_scatter](./svm/svm_scatter_predicted.png) |
-|:--:| 
-| *Classifed wine classes as funcion of mean and standard deviation of feature vectors* |
-
-## K-means clustering
-
-Implementation of k-means clustering using scikit learn and randomly generated blobs for test dataset
-
-| ![k-mans](./k_means/k-means.png) |
-|:--:| 
-| *K-means clustering on random blobs* |
-
-## Decision Tree
+### Decision Tree
 
 Compare Gini and entropy criterion:
 
@@ -148,3 +150,14 @@ Decision tree graphs for each criterion:
 | ![Entropy tree graph](./decision_tree/tree_entropy.png) |
 |:--:| 
 | *Entropy tree graph* |
+
+# Unsupervised Learning
+
+## K-means clustering
+
+Implementation of k-means clustering using scikit learn and randomly generated blobs for test dataset
+
+| ![k-mans](./k_means/k-means.png) |
+|:--:| 
+| *K-means clustering on random blobs* |
+

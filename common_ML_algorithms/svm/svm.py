@@ -10,9 +10,11 @@ from sklearn import metrics
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
+
 ## import data
-wine = datasets.load_wine()
-X_train, X_test, y_train, y_test = train_test_split(wine.data, wine.target, test_size=0.3, random_state=109)
+cancer = datasets.load_breast_cancer()
+X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, test_size=0.3, random_state=109)
 
 ## train
 sk_svm = svm.SVC(kernel='linear').fit(X_train, y_train)
@@ -25,6 +27,7 @@ print('Accuracy: '+str(round(100*metrics.accuracy_score(y_test, y_hat), 2))+'%')
 # print('Precision: '+str(round(100*metrics.precision_score(y_test, y_hat, average='weighted'), 2))+'%')
 # print('Recall: '+str(round(100*metrics.recall_score(y_test, y_hat, average='weighted'), 2))+'%')
 print('\n')
+confusion_matrix_raw = metrics.confusion_matrix(y_test, y_hat)
 
 ## normalize data
 sk_svm_normalized = Pipeline([('scaler', StandardScaler()), ('svm_clf', svm.SVC(kernel='linear'))]).fit(X_train, y_train)
@@ -33,20 +36,21 @@ print('Accuracy: '+str(round(100*metrics.accuracy_score(y_test, y_hat_normalized
 # print('Precision: '+str(round(100*metrics.precision_score(y_test, y_hat_normalized, average='weighted'), 2))+'%')
 # print('Recall: '+str(round(100*metrics.recall_score(y_test, y_hat_normalized, average='weighted'), 2))+'%')
 
-## add data to plot
-X_test = normalize(X_test, axis=0, norm='max')
-y_hat_normalized[y_hat_normalized != y_test] = 3.0
-wine_df = pd.DataFrame(data=np.c_[X_test, y_hat_normalized], columns=wine['feature_names'] + ['target'])
-df_plot = pd.DataFrame(data=np.c_[wine_df[wine.feature_names].mean(axis=1), wine_df[wine.feature_names].std(axis=1), wine_df['target']], 
-                       columns=['Normalized feature vector mean','Normalized feature vector standard deviation', 'target'])
-df_plot['target'][df_plot["target"] == 0.0] = wine.target_names[0]
-df_plot['target'][df_plot["target"] == 1.0] = wine.target_names[1]
-df_plot['target'][df_plot["target"] == 2.0] = wine.target_names[2]
-df_plot['target'][df_plot["target"] == 3.0] = 'Misclassified'
+## evaluate
+confusion_matrix_normalized = metrics.confusion_matrix(y_test, y_hat_normalized)
 
-sns.scatterplot(data=df_plot, x='Normalized feature vector mean', y='Normalized feature vector standard deviation', 
-                hue="target", style='target', palette=['greenyellow','lime', 'darkgreen', 'red'], markers=['D','D','D','X'])
+## plot confusion matrix
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(40,20))
+def plotHeatmap(confusion_matrix, y_hat, y_test, ax, method):
+    sns.heatmap(confusion_matrix/np.sum(confusion_matrix), annot=True, fmt=".2%", linewidths=.5, square = True, 
+            cmap = 'Greens', xticklabels=['malignant','benign'], yticklabels=['malignant','benign'], 
+            ax=ax, cbar_kws={"shrink": 0.75}, annot_kws={'fontsize':30})
+    ax.xaxis.set_tick_params(labelsize = 18)
+    ax.yaxis.set_tick_params(labelsize = 18)
+    ax.set_ylabel('Actual label', fontsize=24)
+    ax.set_xlabel('Predicted label', fontsize=24)
+    ax.set_title('{} Accuracy: {}%'.format(method, round(np.mean(y_hat == y_test)*100, 2)), fontsize=36)
 
-plt.suptitle('SVM (normalized data) accuracy: '+str(round(metrics.accuracy_score(y_test, y_hat_normalized)*100, 2))+'%', y=1.025)
-plt.savefig('svm_scatter_predicted.png', bbox_inches='tight')
-plt.show()
+plotHeatmap(confusion_matrix_raw, y_hat, y_test, ax1, 'Raw Data')
+plotHeatmap(confusion_matrix_normalized, y_hat_normalized, y_test, ax2, 'Normalized Data')
+plt.savefig('svm_confusion_matrices.svg', bbox_inches='tight')

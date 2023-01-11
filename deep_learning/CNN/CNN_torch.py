@@ -7,19 +7,17 @@ from torch.nn import functional as F
 def initializeWeights(layer):
     if isinstance(layer, nn.LazyConv2d) or isinstance(layer, nn.LazyLinear):
         torch.nn.init.xavier_normal_(layer.weight)
-        # torch.nn.init.normal_(layer.weight)
         if layer.bias is not None:
                 layer.bias.data.zero_()
 
 # hyperparameters
 batch_size = 256
 output_classes = 10
-lr = 0.25 # 84.765625% (no batch norm)
+lr = 0.25
 epochs = 10
 
 # activation and loss
 activation_function = nn.ReLU()
-# loss_function = nn.NLLLoss()
 loss_function = F.cross_entropy
 
 # load data
@@ -51,11 +49,9 @@ model = nn.Sequential(
                     
                     nn.Linear(84, output_classes)
                     )
-                    # nn.LogSoftmax())
 
 # initialize
 model.apply(initializeWeights)
-# optimizer = optim.Adam(model.parameters(), lr=lr)
 optimizer = torch.optim.SGD(model.parameters(), lr = lr)
 accuracy = 0
 
@@ -72,7 +68,6 @@ for epoch in range(epochs):
         accuracy = 1 - len(y_hat)/batch_size
     print('epoch {}, loss {}, accuracy {}'.format(epoch, loss.item(), accuracy))
     
-
 # predict
 X, y = next(iter(torch.utils.data.DataLoader(val, batch_size=batch_size, shuffle=True, num_workers=0)))
 y_hat = model(X).argmax(axis=1)
