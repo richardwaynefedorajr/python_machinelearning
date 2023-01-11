@@ -48,13 +48,14 @@ def show_images(imgs, num_subplots, titles=None, scale=1.5, accuracy=0.0):
 
 # hyperparameters
 batch_size = 256
-num_inputs = 784
-num_outputs = 10
-num_hiddens = 256
-activation = 'relu'
-loss_function = 'sparse_categorical_crossentropy'
-learning_rate = 0.001
-epochs = 20
+input_dimension = 784
+output_dimension = 10
+learning_rate = 0.00015
+epochs = 100
+
+# activation and loss
+activation = tf.nn.relu
+loss_function = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True) 
 
 # load data
 (X_train, y_train), (X_test, y_test) = tf.keras.datasets.fashion_mnist.load_data()
@@ -62,9 +63,8 @@ epochs = 20
 # create model
 model = tf.keras.models.Sequential([
             tf.keras.layers.Flatten(),
-            tf.keras.layers.Dense(num_inputs, activation=activation),
-            tf.keras.layers.Dense(num_hiddens, activation=activation),
-            tf.keras.layers.Dense(num_outputs, activation='softmax')])
+            tf.keras.layers.Dense(input_dimension, activation=activation),
+            tf.keras.layers.Dense(output_dimension)]) 
 
 # loss function and optimizer
 model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate), loss=loss_function)
@@ -82,4 +82,5 @@ wrong = y_hat != y_test
 X_test, y_test, y_hat = X_test[wrong], y_test[wrong], y_hat[wrong]
 accuracy = 1 - len(y_hat)/len(wrong)
 labels = [a+'\n'+b for a, b in zip(getLabelsFromIndex(y_test), getLabelsFromIndex(y_hat))]
-show_images(X_test, len(y_hat), scale=1.5, titles=labels, accuracy=accuracy)
+if accuracy > 0.75: show_images(X_test, len(y_hat), scale=1.5, titles=labels, accuracy=accuracy)
+print(accuracy)
