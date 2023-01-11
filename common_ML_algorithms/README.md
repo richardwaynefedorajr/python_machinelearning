@@ -39,13 +39,13 @@ After dimensionality reduction leads accuracy to approach closed form solution, 
 
 | ![Confusion matrices](./naive_bayes/naive_bayes_confusion_matrices.svg) |
 |:--:| 
-| *Feature correlation heatmap for cancer dataset* |
+| *Naive Bayes classification results for cancer dataset* |
 
 #### Logistic Regression
 
 Comparison of numpy closed form solution to scikit-learn implementation using cancer dataset
 
-| ![Logistic regression classification of iris dataset](./logistic_regression/logistic_regression_confusion_matrices.png) |
+| ![Logistic regression classification of iris dataset](./logistic_regression/logistic_regression_confusion_matrices.svg) |
 |:--:| 
 | *Logistic regression classification results for cancer dataset* |
 
@@ -54,20 +54,20 @@ Comparison of numpy closed form solution to scikit-learn implementation using ca
 Initial run with raw dataset
 
 ```console
-Accuracy: 92.59%
+Accuracy: 96.49%
 ```
 
 Let us see if normalization can buy us any improvements:
 
 ```console
-Accuracy: 94.44%
+Accuracy: 98.83%
 ```
 
-| ![svm_scatter](./svm/svm_scatter_predicted.png) |
+| ![svm_confusion_matrices](./svm/svm_confusion_matrices.svg) |
 |:--:| 
-| *Classifed wine classes as funcion of mean and standard deviation of feature vectors* |
+| *SVM classification results for cancer dataset* |
 
-### K-nearest neighbors
+### Iris Dataset - K-nearest neighbors
 
 sci-kit learn implementation using iris dataset
 
@@ -132,7 +132,7 @@ Use cross validation to determine optimal k (number of nearest neighbors):
 |:--:| 
 | *Pair plots for predicted classes* |
 
-### Decision Tree
+### Balance Dataset - Decision Tree
 
 Compare Gini and entropy criterion:
 
