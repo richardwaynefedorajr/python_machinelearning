@@ -14,7 +14,7 @@ def tuneHyperParameters(X_train, y_train):
     plt.title('K value vs. cross validation score: optimal k = '+str(optimal_k))
     plt.xlabel('K value')
     plt.ylabel('Accuracy score')
-    plt.savefig('knn_k_values.png', bbox_inches='tight')
+    plt.savefig('knn_k_values.svg', bbox_inches='tight')
     plt.show()
     
     return optimal_k
