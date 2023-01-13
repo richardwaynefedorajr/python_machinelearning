@@ -1,57 +1,41 @@
 import tensorflow as tf
+
 from tensorflow import keras
 from tensorflow.keras import layers
 from keras.utils import np_utils
+
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-def getLabelsFromIndex(labels):
-    text_labels = ['t-shirt', 'trouser', 'pullover', 'dress', 'coat', 'sandal', 'shirt', 'sneaker', 'bag', 'ankle boot']
-    return [text_labels[int(i)] for i in labels]
+sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
 
-def setSubplotDimensions(num_subplots):
-    min_cols = 6
-    max_cols = 10
-    possible_num_cols = np.arange(min_cols,max_cols+1)
-    num_cols = possible_num_cols[np.argmin(num_subplots % possible_num_cols)]
-    if num_subplots < max_cols:
-        return 1, num_subplots
-    elif num_subplots % num_cols == 0:
-        return num_subplots // num_cols, num_cols
-    else:
-        num_cols = possible_num_cols[np.argmax(num_subplots % possible_num_cols)]
-        return num_subplots // num_cols + 1, num_cols
+def plotTrainingMetrics(loss, accuracy, epochs):
+    fig, ax = plt.subplots()
+    ax.plot(range(epochs), loss/loss.max(), label='Training loss')
+    ax.plot(range(epochs), accuracy, label='Training accuracy')
+    ax.set(xlabel='Epochs', ylabel='Metrics', title='Tensorflow MLP Training Accuracy and Loss')
+    ax.grid()
+    ax.legend()
+    fig.savefig("tensorflow_MLP_metrics.svg")
+    plt.show()
+
+def plotHeatmap(confusion_matrix, accuracy, ax, method):
+    labels = ['t-shirt', 'trouser', 'pullover', 'dress', 'coat', 'sandal', 'shirt', 'sneaker', 'bag', 'ankle boot']
+    sns.heatmap(confusion_matrix/np.sum(confusion_matrix), annot=True, fmt=".2%", linewidths=.5, square = True, cmap = 'Greens',
+            xticklabels=labels, yticklabels=labels, ax=ax, cbar_kws={"shrink": 0.75}, annot_kws={'fontsize':30})
+    ax.xaxis.set_tick_params(labelsize = 18)
+    ax.yaxis.set_tick_params(labelsize = 18)
+    ax.set_ylabel('Actual label', fontsize=24)
+    ax.set_xlabel('Predicted label', fontsize=24)
+    ax.set_title('{} Accuracy: {}%'.format(method, round(accuracy*100, 2)), fontsize=36)
     
-def show_images(imgs, num_subplots, titles=None, scale=1.5, accuracy=0.0):
-    label_fontsize, title_fontsize, colormap = 18, 24, 'viridis'
-    num_rows, num_cols = setSubplotDimensions(num_subplots)
-    figsize = (num_cols * scale, num_rows * scale**2)
-    fig, axes = plt.subplots(num_rows, num_cols, figsize=figsize)
-    axes = axes.flatten()
-    for ax in axes:
-        ax.set_axis_off()
-    for i, (ax, img) in enumerate(zip(axes, imgs)):
-        try:
-            img = img.detach().numpy()
-        except:
-            pass
-        ax.imshow(img, cmap=colormap)
-
-        if titles:
-            ax.set_title(titles[i], fontsize=label_fontsize)
-            
-    fig.suptitle('MLP on MNIST Fashion dataset: Accuracy = {}%'.format(round(accuracy*100,2)), 
-                 fontsize=title_fontsize)
-    plt.tight_layout()
-    plt.savefig('MLP_tf.svg', bbox_inches='tight')
-    return axes
-
 # hyperparameters
 batch_size = 256
 input_dimension = 784
 output_dimension = 10
 learning_rate = 0.00015
-epochs = 100
+epochs = 10
 
 # activation and loss
 activation = tf.nn.relu
@@ -67,10 +51,10 @@ model = tf.keras.models.Sequential([
             tf.keras.layers.Dense(output_dimension)]) 
 
 # loss function and optimizer
-model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate), loss=loss_function)
+model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate), loss=loss_function, metrics=['accuracy'])
 
 # fit
-model.fit(X_train, y_train, epochs=epochs, verbose=1, batch_size=batch_size, shuffle=True)
+history = model.fit(X_train, y_train, epochs=epochs, verbose=1, batch_size=batch_size, shuffle=True)
 
 # predict
 X_test = X_test[:batch_size]
@@ -78,9 +62,8 @@ y_test = y_test[:batch_size]
 y_hat = model.predict(X_test).argmax(axis=1)
 
 # evaluate
-wrong = y_hat != y_test
-X_test, y_test, y_hat = X_test[wrong], y_test[wrong], y_hat[wrong]
-accuracy = 1 - len(y_hat)/len(wrong)
-labels = [a+'\n'+b for a, b in zip(getLabelsFromIndex(y_test), getLabelsFromIndex(y_hat))]
-if accuracy > 0.75: show_images(X_test, len(y_hat), scale=1.5, titles=labels, accuracy=accuracy)
-print(accuracy)
+plotTrainingMetrics(np.array(history.history['loss']), np.array(history.history['accuracy']), epochs)
+confusion_matrix_val = tf.math.confusion_matrix(y_hat, y_test, num_classes=output_dimension)
+fig, ax = plt.subplots(figsize=(30,30))
+plotHeatmap(confusion_matrix_val, np.mean(y_hat == y_test), ax, 'MLP Validation Results')
+plt.savefig('MLP_confusion_matrix.svg', bbox_inches='tight')
