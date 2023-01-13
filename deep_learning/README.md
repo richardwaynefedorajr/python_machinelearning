@@ -32,7 +32,7 @@ Let us extend this line of action (switching to tensorflow for implementation), 
 |:--:| 
 | *Tensorflow MLP training metrics* |
 
-| ![tensorflow_MLP output](./MLP/tensorflow_MLP_matrix.svg) |
+| ![tensorflow_MLP output](./MLP/MLP_confusion_matrix.svg) |
 |:--:| 
 | *Tensorflow MLP results* |
 
@@ -51,4 +51,4 @@ Displayed below are examples of mis-labeled elements of the validation dataset:
 
 | ![pytorch CNN mislabeled](./CNN/CNN_mislabeled.svg) |
 |:--:| 
-| *Pytorch CNN mis-labeled image examples* |
+| *Pytorch CNN mis-labeled image examples - correct label above, incorrect label below* |
