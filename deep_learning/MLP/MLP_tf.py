@@ -1,69 +1,57 @@
+import sys
+sys.path.append('../utils')
+from model import Model
+
 import tensorflow as tf
+import numpy as np
 
 from tensorflow import keras
 from tensorflow.keras import layers
 from keras.utils import np_utils
+from keras.utils import plot_model
 
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+class MLP(Model):
+    def __init__(self, batch_size=256, lr=0.1, epochs=10, input_dimension=None, labels=None):
+        super().__init__(batch_size, lr, epochs, labels)
 
-sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
+        self.input_dimension = input_dimension
 
-def plotTrainingMetrics(loss, accuracy, epochs):
-    fig, ax = plt.subplots()
-    ax.plot(range(epochs), loss/loss.max(), label='Training loss')
-    ax.plot(range(epochs), accuracy, label='Training accuracy')
-    ax.set(xlabel='Epochs', ylabel='Metrics', title='Tensorflow MLP Training Accuracy and Loss')
-    ax.grid()
-    ax.legend()
-    fig.savefig("tensorflow_MLP_metrics.svg")
-    plt.show()
+        self.model = tf.keras.models.Sequential([
+                                                 tf.keras.layers.Flatten(),
+                                                 tf.keras.layers.Dense(self.input_dimension, activation=self.activation),
+                                                 tf.keras.layers.Dense(self.output_dimension)]) 
+        self.optimizer = tf.keras.optimizers.SGD(learning_rate=self.lr)
+        self.loss_function = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True) 
+        self.activation = tf.nn.relu
+        self.history = None
+        
+        self.file_prefix = 'MLP'
 
-def plotHeatmap(confusion_matrix, accuracy, ax, method):
-    labels = ['t-shirt', 'trouser', 'pullover', 'dress', 'coat', 'sandal', 'shirt', 'sneaker', 'bag', 'ankle boot']
-    sns.heatmap(confusion_matrix/np.sum(confusion_matrix), annot=True, fmt=".2%", linewidths=.5, square = True, cmap = 'Greens',
-            xticklabels=labels, yticklabels=labels, ax=ax, cbar_kws={"shrink": 0.75}, annot_kws={'fontsize':30})
-    ax.xaxis.set_tick_params(labelsize = 18)
-    ax.yaxis.set_tick_params(labelsize = 18)
-    ax.set_ylabel('Actual label', fontsize=24)
-    ax.set_xlabel('Predicted label', fontsize=24)
-    ax.set_title('{} Accuracy: {}%'.format(method, round(accuracy*100, 2)), fontsize=36)
-    
-# hyperparameters
-batch_size = 256
-input_dimension = 784
-output_dimension = 10
-learning_rate = 0.00015
-epochs = 10
+    def compile(self):
+        self.model.compile(optimizer=self.optimizer, loss=self.loss_function, metrics=['accuracy'])
+        
+    def fit(self, X, y):
+        self.history = self.model.fit(X, y, epochs=self.epochs, verbose=1, batch_size=self.batch_size, shuffle=True)
+        self.training_accuracy = np.array(self.history.history['accuracy'])
+        self.training_loss = np.array(self.history.history['loss'])
+        
+    def predict(self, X, y):
+        self.y = y[:self.batch_size]
+        self.y_hat = self.model.predict(X[:self.batch_size]).argmax(axis=1)
 
-# activation and loss
-activation = tf.nn.relu
-loss_function = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True) 
-
+    def plotConfusionMatrix(self):
+        super().plotConfusionMatrix(self.y, self.y_hat)
+        
 # load data
 (X_train, y_train), (X_test, y_test) = tf.keras.datasets.fashion_mnist.load_data()
 
-# create model
-model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(),
-            tf.keras.layers.Dense(input_dimension, activation=activation),
-            tf.keras.layers.Dense(output_dimension)]) 
-
-# loss function and optimizer
-model.compile(optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate), loss=loss_function, metrics=['accuracy'])
-
-# fit
-history = model.fit(X_train, y_train, epochs=epochs, verbose=1, batch_size=batch_size, shuffle=True)
-
-# predict
-X_test = X_test[:batch_size]
-y_test = y_test[:batch_size]
-y_hat = model.predict(X_test).argmax(axis=1)
+# parameterize model, train, and predict
+model = MLP(batch_size=256, lr=0.00015, epochs=10, input_dimension=784,
+            labels=['t-shirt', 'trouser', 'pullover', 'dress', 'coat', 'sandal', 'shirt', 'sneaker', 'bag', 'ankle boot'])   
+model.compile()     
+model.fit(X_train, y_train)
+model.predict(X_test, y_test)
 
 # evaluate
-plotTrainingMetrics(np.array(history.history['loss']), np.array(history.history['accuracy']), epochs)
-confusion_matrix_val = tf.math.confusion_matrix(y_hat, y_test, num_classes=output_dimension)
-fig, ax = plt.subplots(figsize=(30,30))
-plotHeatmap(confusion_matrix_val, np.mean(y_hat == y_test), ax, 'MLP Validation Results')
-plt.savefig('MLP_confusion_matrix.svg', bbox_inches='tight')
+model.plotTrainingMetrics()
+model.plotConfusionMatrix()

@@ -18,7 +18,7 @@ Comparison of classification results on MNIST Fashion dataset between pytorch so
 
 First, the softmax results:
 
-| ![pytorch softmax regression metrics](./softmax_regression/pytorch_softmax_metrics.svg) |
+| ![pytorch softmax regression metrics](./softmax_regression/softmax_training_metrics.svg) |
 |:--:| 
 | *Pytorch softmax classifier training metrics* |
 
@@ -28,7 +28,7 @@ First, the softmax results:
 
 Let us extend this line of action (switching to tensorflow for implementation), and add a hidden layer...
 
-| ![tensorflow_MLP metrics](./MLP/tensorflow_MLP_metrics.svg) |
+| ![tensorflow_MLP metrics](./MLP/MLP_training_metrics.svg) |
 |:--:| 
 | *Tensorflow MLP training metrics* |
 
@@ -39,7 +39,7 @@ Let us extend this line of action (switching to tensorflow for implementation), 
 
 Finally, a CNN implementation in pytorch (generally follows LeNet architecture, but substititutes relu activation function and adds batch normalization)
 
-| ![pytorch CNN metrics](./CNN/pytorch_CNN_metrics.svg) |
+| ![pytorch CNN metrics](./CNN/CNN_training_metrics.svg) |
 |:--:| 
 | *Pytorch CNN training metrics* |
 
