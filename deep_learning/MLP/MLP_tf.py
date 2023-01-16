@@ -42,6 +42,9 @@ class MLP(Model):
     def plotConfusionMatrix(self):
         super().plotConfusionMatrix(self.y, self.y_hat)
         
+    def showNetworkStructure(self):
+        plot_model(self.model, to_file=self.file_prefix+'_structure.png', show_shapes=True)
+        
 # load data
 (X_train, y_train), (X_test, y_test) = tf.keras.datasets.fashion_mnist.load_data()
 
@@ -55,3 +58,4 @@ model.predict(X_test, y_test)
 # evaluate
 model.plotTrainingMetrics()
 model.plotConfusionMatrix()
+# model.showNetworkStructure()
