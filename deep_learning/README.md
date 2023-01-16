@@ -16,6 +16,8 @@ Visualizations generated from pytorch and tensorflow implementations.
 
 Comparison of classification results on MNIST Fashion dataset between pytorch softmax classifier, tensorflow MLP, and pytorch CNN.
 
+### Softmax Classifier
+
 First, the softmax results:
 
 | ![pytorch softmax regression metrics](./softmax_regression/softmax_training_metrics.svg) |
@@ -26,7 +28,15 @@ First, the softmax results:
 |:--:| 
 | *Pytorch softmax classifier results* |
 
+### MLP
+
 Let us extend this line of action (switching to tensorflow for implementation), and add a hidden layer...
+
+| ![tensorflow_MLP structure](./MLP/MLP_structure.png) |
+|:--:| 
+| *Tensorflow MLP network structure* |
+
+Results demonstrate a positive trend in accuracy:
 
 | ![tensorflow_MLP metrics](./MLP/MLP_training_metrics.svg) |
 |:--:| 
@@ -36,8 +46,11 @@ Let us extend this line of action (switching to tensorflow for implementation), 
 |:--:| 
 | *Tensorflow MLP results* |
 
+So if adding a 1D layer is good, adding a 2D layer is better, right???
 
-Finally, a CNN implementation in pytorch (generally follows LeNet architecture, but substititutes relu activation function and adds batch normalization)
+### CNN
+
+Finally, a CNN implementation in pytorch (generally follows LeNet architecture, but substititutes relu activation function an adds batch normalization):
 
 | ![pytorch CNN metrics](./CNN/CNN_training_metrics.svg) |
 |:--:| 

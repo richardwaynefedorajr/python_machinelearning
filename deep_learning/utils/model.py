@@ -34,31 +34,31 @@ class Model():
         cmap = plt.cm.colors.ListedColormap(plt.cm.gist_rainbow(vals))
         sns.set_palette(cmap(np.linspace(0,1,cmap.N)))
         sns.set_style('darkgrid', {'axes.facecolor':'0.85'})
-        plot = sns.lineplot(data, dashes=False)
+        plot = sns.lineplot(data, dashes=False, linewidth=0.75)
         plot.figure.suptitle(title)
         return plot
     
-    def heatmap(self, ax, title, xlabel, ylabel, data):
+    def heatmap(self, ax, title, data):
         sns.set(rc={"figure.dpi":600, 'savefig.dpi':600})
-        sns.heatmap(data, annot=True, fmt=".2%", linewidths=.5, square = True, cmap='YlGnBu',
-                xticklabels=self.labels, yticklabels=self.labels, ax=ax, cbar_kws={"shrink": 0.75}, annot_kws={'fontsize':30})
-        ax.xaxis.set_tick_params(labelsize = 18)
-        ax.yaxis.set_tick_params(labelsize = 18)
-        ax.set_ylabel(ylabel, fontsize=24)
-        ax.set_xlabel(xlabel, fontsize=24)
-        ax.set_title(title, fontsize=36)
+        sns.heatmap(data, annot=True, fmt=".1%", linewidths=0.5, square=True, cmap='YlGnBu',
+                xticklabels=self.labels, yticklabels=self.labels, ax=ax, cbar_kws={"shrink": 0.75}, annot_kws={'fontsize':10})
+        ax.xaxis.set_tick_params(labelsize = 10)
+        ax.yaxis.set_tick_params(labelsize = 10)
+        ax.set_title(title, fontsize=18)
+        ax.set_xlabel('Predicted Label', fontsize=18, horizontalalignment='center')
+        ax.set_ylabel('Actual Label', fontsize=18, verticalalignment='center')
         return ax
     
     def plotTrainingMetrics(self):
-        df = pd.DataFrame(data=np.c_[range(self.epochs), self.training_loss, self.training_accuracy], 
+        df = pd.DataFrame(data=np.c_[range(self.epochs), self.training_loss/self.training_loss.max(), self.training_accuracy], 
                           columns=['Epochs','Normalized training loss','Training accuracy']).set_index('Epochs')
         plot = self.linePlot(df, self.file_prefix+' Training Metrics')
         plt.savefig(self.file_prefix+'_training_metrics.svg', bbox_inches='tight')
         
     def plotConfusionMatrix(self, y, y_hat):
         self.confusion_matrix = confusion_matrix(y, y_hat, labels=np.arange(0,self.output_dimension))
-        fig, ax = plt.subplots(figsize=(30,30))
+        fig, ax = plt.subplots(figsize=(9,8))
         accuracy = np.mean(y_hat == y)
-        ax = self.heatmap(ax, self.file_prefix+' Confusion Matrix: Accuracy = {}'.format(round(accuracy*100, 2)), 
-                          'Predicted Label', 'Actual Label', self.confusion_matrix/self.confusion_matrix.max())
+        title = self.file_prefix+' Confusion Matrix: Accuracy = {}'.format(round(accuracy*100, 2))
+        ax = self.heatmap(ax, title, self.confusion_matrix/self.confusion_matrix.max())
         plt.savefig(self.file_prefix+'_confusion_matrix.svg', bbox_inches='tight')

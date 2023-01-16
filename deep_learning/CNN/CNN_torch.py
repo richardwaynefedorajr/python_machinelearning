@@ -119,7 +119,7 @@ class CNN(Model):
         wrong = self.y_hat != self.y
         X, y, y_hat = self.X[wrong], self.y[wrong], self.y_hat[wrong]
         example_labels = [a+'\n'+b for a, b in zip(self.getLabelsFromIndex(y), self.getLabelsFromIndex(y_hat))]
-        self.show_images(X.squeeze(1), len(y_hat), scale=1.5, titles=example_labels)
+        self.show_images(X.squeeze(1), len(y_hat), scale=1.75, titles=example_labels)
         
 # load data
 trans = transforms.Compose([transforms.Resize((32, 32)), transforms.ToTensor()])
