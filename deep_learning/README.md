@@ -8,7 +8,7 @@ Visualizations generated from pytorch and tensorflow implementations.
 |:--:| 
 | *Pytorch linear regression output* |
 
-| ![tensorflow linear regression output](./linear_regression/linear_regression_tensorflow.svg) |
+| ![tensorflow linear regression output](./linear_regression/tensorflow_linear_regression_scatterplot.svg) |
 |:--:| 
 | *Tensorflow linear regression output* |
 
@@ -65,3 +65,10 @@ Displayed below are examples of mis-labeled elements of the validation dataset:
 | ![pytorch CNN mislabeled](./CNN/CNN_mislabeled.svg) |
 |:--:| 
 | *Pytorch CNN mis-labeled image examples - correct label above, incorrect label below* |
+
+## Recurrent Neural Networks
+Let's take a look at a basic regression on sequential data:  construct a feature vector using $x_{t-1},...,x_{t-\tau}$ for label $x_t$
+
+| ![tensorflow_SLR_output](./RNN/sequential_linear_regression_results.svg) |
+|:--:| 
+| *Tensorflow sequential linear regression results* |
