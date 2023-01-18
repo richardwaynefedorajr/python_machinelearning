@@ -50,7 +50,7 @@ So if adding a 1D layer is good, adding a 2D layer is better, right???
 
 ### CNN
 
-Finally, a CNN implementation in pytorch (generally follows LeNet architecture, but substititutes relu activation function an adds batch normalization):
+Finally, a CNN implementation in pytorch (generally follows LeNet architecture, but substititutes relu activation function and adds batch normalization):
 
 | ![pytorch CNN metrics](./CNN/CNN_training_metrics.svg) |
 |:--:| 
@@ -67,7 +67,7 @@ Displayed below are examples of mis-labeled elements of the validation dataset:
 | *Pytorch CNN mis-labeled image examples - correct label above, incorrect label below* |
 
 ## Recurrent Neural Networks
-Let's take a look at a basic regression on sequential data:  construct a feature vector using $x_{t-1},...,x_{t-\tau}$ for label $x_t$
+Let's take a look at a basic regression on sequential data: construct a feature vector using $\tau$ previous values $x_{t-1},...,x_{t-\tau}$ for label $x_t$
 
 | ![tensorflow_SLR_output](./RNN/sequential_linear_regression_results.svg) |
 |:--:| 
