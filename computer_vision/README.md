@@ -16,12 +16,12 @@ function either on the horizontal or vertical... optimal seam to remove can then
 | *Energy map* |
 
 | ![horizontal_gradient](./seam_carving/output_prague/prague_cmem_horiz.png) | ![vertical_gradient](./seam_carving/output_prague/prague_cmem_vertical.png) |
-|:--:| 
-| *Horizontal and vertical gradient images* |
+|:--:|:--:|
+| *Horizontal gradient* | * Vertical gradient* |
 
 | ![reduced_height](./seam_carving/output_prague/outputReducedHeightPrague.png) | ![reduced_width](./seam_carving/output_prague/outputReduceWidthPrague.png) |
-|:--:| 
-| *Reduced size output images* |
+|:--:|:--:| 
+| *Reduced height* | *Reduced width* |
 
 
 ## Circle Detection
