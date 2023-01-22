@@ -16,7 +16,7 @@ from displaySeam import displaySeam
 from reduceWidth import reduceWidth
 import matplotlib.pyplot as plt
 
-im_in = misc.imread('inputSeamCarvingPrague.jpg')
+im_in = misc.imread('test_images/inputSeamCarvingPrague.jpg')
 im = np.copy(im_in)
 #im_resize = misc.imresize(im,[360,480])
 #misc.imsave('outputPrague_misc_resize.png',im_resize)

@@ -16,7 +16,7 @@ from displaySeam import displaySeam
 from reduceHeight import reduceHeight
 import matplotlib.pyplot as plt
 
-im_in = cv2.imread('inputSeamCarvingPrague.jpg')
+im_in = cv2.imread('test_images/inputSeamCarvingPrague.jpg')
 im = np.copy(im_in)
 #im_resize = misc.imresize(im,[284,575])
 #imisc.imsave('output_Prague_misc_resize.png',im_resize)
@@ -36,4 +36,4 @@ for i in range(100):
     plt.show(img3)
     [im,energyImage] = reduceHeight(im,energyImage,horizontalSeam)
 
-#misc.imsave('outputReducedHeightPrague.png',im)
+misc.imsave('outputReducedHeightPrague.png',im)
