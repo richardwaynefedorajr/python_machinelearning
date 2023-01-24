@@ -22,21 +22,8 @@ def energy_image(im_in,type):
     im = np.copy(im_in)
     im = rgb2gray(im)
     im.astype(np.float64)
-    #im_big = np.zeros((len(im[:,0])+2,len(im[0,:])+2))
-    #im_big[1:-1,1:-1] = im
-    #im_big[1:-1,0] = im[:,0]
-    #im_big[1:-1,-1] = im[:,-1]
-    #im_big[0,1:-1] = im[0,:]
-    #im_big[-1,1:-1] = im[-1,:]
-    #im_big[0,0] = im[0,0]
-    #im_big[0,-1] = im[0,-1]
-    #im_big[-1,0] = im[-1,0]
-    #im_big[-1,-1] = im[-1,-1]
-    #im_x = nd.sobel(im,1)
-    #im_y = nd.sobel(im,0)
     [im_x,im_y] = np.gradient(im)
     im_out = np.hypot(im_x,im_y)
-    #[im_x,im_y] = np.gradient(im)
     if type == 'HORIZONTAL':
         im_out[:,0] = im_out[:,1]
         im_out[:,-1] = im_out[:,-2]
@@ -50,10 +37,5 @@ def energy_image(im_in,type):
         im_out[:,-1] = im_out[:,-2]
     else:
         print('no type given')
-    
-    #im_x = np.square(im_x)
-    #im_y = np.square(im_y)
-    #im_out = np.sqrt(im_x + im_y)
-    #im_out_final = im_out[1:-1,1:-1]
     
     return im_out

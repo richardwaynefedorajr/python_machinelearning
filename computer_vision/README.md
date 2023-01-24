@@ -4,6 +4,8 @@ Top level directory for various computer vision implementations
 
 ## Seam Carving
 
+NOTE: this is horrific python code, to be re-factored ASAP (https://github.com/richardwaynefedorajr/python_machinelearning/issues/6)
+
 Content aware image re-sizing (Avidan and Shamir [2007](http://graphics.cs.cmu.edu/courses/15-463/2012_fall/hw/proj3-seamcarving/imret.pdf)) is accomplished by applying an energy function to an image, and further calculating the gradient of said
 function either on the horizontal or vertical... optimal seam to remove can then be determined from gradient values.
 
