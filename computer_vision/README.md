@@ -13,17 +13,17 @@ function either on the horizontal or vertical... optimal seam to remove can then
 |:--:| 
 | *Input image* |
 
-First we generate the energy map:
+First we generate the energy map using the gradients:
 
 | ![input_image_energy_map](./seam_carving/output_prague/prague_energy_map.png) |
 |:--:| 
 | *Energy map* |
 
-Now calculate gradients:
+Now calculate cumulative energy along chosen direction:
 
 | ![horizontal_gradient](./seam_carving/output_prague/prague_cmem_horiz.png) | ![vertical_gradient](./seam_carving/output_prague/prague_cmem_vertical.png) |
 |:--:|:--:|
-| *Horizontal gradient* | * Vertical gradient* |
+| *Horizontal energy map* | * Vertical energy map* |
 
 Get the optimal seam:
 
